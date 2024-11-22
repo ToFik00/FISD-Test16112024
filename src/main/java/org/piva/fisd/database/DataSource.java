@@ -5,7 +5,6 @@ import org.piva.fisd.util.PropertiesReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 
 public class DataSource {
@@ -17,11 +16,9 @@ public class DataSource {
             throw new RuntimeException(e);
         }
         PropertiesReader propertiesReader = new PropertiesReader();
-        /*return DriverManager.getConnection(propertiesReader.getProperty("url"),
+        return DriverManager.getConnection(propertiesReader.getProperty("url"),
                 propertiesReader.getProperty("username"),
-                propertiesReader.getProperty("password"));*/
-
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/fisd_test", "postgres", "121121");
+                propertiesReader.getProperty("password"));
     }
 
 }

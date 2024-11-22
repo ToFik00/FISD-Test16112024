@@ -1,7 +1,7 @@
 package org.piva.fisd.util;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesReader{
@@ -9,9 +9,9 @@ public class PropertiesReader{
 
     public PropertiesReader() {
 
-        try (FileReader reader = new FileReader(ClassLoader.getSystemResource("config.properties").getPath())) {
+        try (InputStream inputStream = PropertiesReader.class.getClassLoader().getResourceAsStream("config.properties")) {
             properties = new Properties();
-            properties.load(reader);
+            properties.load(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
