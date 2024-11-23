@@ -4,13 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>City Info</title>
+    <script>
+        function fetchCityInfo() {
+            const city = document.getElementById("city").value;
+
+            if (!city.trim()) {
+                alert("Введите название города.");
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/weather", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    document.getElementById("result").innerText = response.info;
+                } else {
+                    document.getElementById("result").innerText = "Ошибка получения данных.";
+                }
+            };
+
+            xhr.send("city=" + encodeURIComponent(city));
+        }
+    </script>
 </head>
 <body>
 <h1>Узнайте информацию о городе</h1>
-<form action="weather" method="post">
+<form onsubmit="fetchCityInfo(); return false;">
     <label for="city">Введите название города:</label>
     <input type="text" id="city" name="city" required>
     <button type="submit">Узнать погоду</button>
 </form>
+<h2>Результат:</h2>
+<div id="result">Введите город и нажмите кнопку "Узнать погоду".</div>
 </body>
 </html>

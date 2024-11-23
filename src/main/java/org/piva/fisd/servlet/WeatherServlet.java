@@ -12,6 +12,7 @@ import org.piva.fisd.database.httpclient.HttpClientImpl;
 import org.piva.fisd.util.PropertiesReader;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet(name = "WeatherServlet", urlPatterns = "/weather")
@@ -34,8 +35,12 @@ public class WeatherServlet extends HttpServlet {
         WeatherTemp weatherTemp = mapper.readValue(json, WeatherTemp.class);
 
         int result = (int) (weatherTemp.getMain().getTemp() - 273.15);
-        req.setAttribute("result", result);
+        Map<String, String> jsonResponse = new HashMap<>();
+        jsonResponse.put("city", city);
+        jsonResponse.put("info", String.valueOf(result));
 
-        req.getRequestDispatcher("/weather.jsp").forward(req, resp);
+        resp.setContentType("application/json");
+
+        mapper.writeValue(resp.getWriter(), jsonResponse);
     }
 }
